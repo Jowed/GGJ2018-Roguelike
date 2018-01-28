@@ -57,6 +57,8 @@ public class Generator : MonoBehaviour {
 
     void gen() {
         Vector2 xz;
+        float dx, dz;
+        RoomController r;
         if (roomCount == 0)
         {
             roomCount = (int)Random.Range(3.0f, 10.0f);
@@ -65,12 +67,19 @@ public class Generator : MonoBehaviour {
         for (int i = 0; i < roomCount; ++i)
         {
             xz = Random.insideUnitCircle;
+            dx = xz.x * diffusion;
+            dz = xz.y * diffusion;
             rooms[i] = Instantiate(Room);
             //rooms[i].transform.parent = Floor.transform;
             genRoom(rooms[i]);
-            rooms[i].transform.SetPositionAndRotation(new Vector3(xz.x * diffusion, 0.0f, xz.y * diffusion), Quaternion.identity);
+            rooms[i].transform.SetPositionAndRotation(new Vector3(dx, 0.0f, dz), Quaternion.identity);
+            r = rooms[i].GetComponent<RoomController>();
+            r.x1 += dx;
+            r.x2 += dx;
+            r.z1 += dz;
+            r.z2 += dz;
         }
-        //separateRooms();
+        separateRooms();
     }
 
     bool isBetween(float x, float y, float z)
@@ -89,21 +98,79 @@ public class Generator : MonoBehaviour {
         return false;
     }
 
-    bool conflict(RoomController r1, RoomController r2)
+    Vector2 conflict(RoomController r1, RoomController r2)
     {
         //r1's top-left edge is inside r2
-        bool a = inside(r1.x1, r2.x1, r2.x2, r1.z1, r2.z1, r2.z2);
+        //bool a = inside(r1.x1, r2.x1, r2.x2, r1.z1, r2.z1, r2.z2);
         //r1's top-right edge is inside r2
-        bool b = inside(r1.x2, r2.x1, r2.x2, r1.z1, r2.z1, r2.z2);
+        //bool b = inside(r1.x2, r2.x1, r2.x2, r1.z1, r2.z1, r2.z2);
         //r1's bottom-left edge is inside r2
-        bool c = inside(r1.x1, r2.x1, r2.x2, r1.z2, r2.z1, r2.z2);
+        //bool c = inside(r1.x1, r2.x1, r2.x2, r1.z2, r2.z1, r2.z2);
         //r1's bottom-right edge is inside r2
-        bool d = inside(r1.x2, r2.x1, r2.x2, r1.z2, r2.z1, r2.z2);
-
-        return a || b || c || d;
+        //bool d = inside(r1.x2, r2.x1, r2.x2, r1.z2, r2.z1, r2.z2);
+        //left-right intersection
+        //return (((r1.x1 < r2.x1 && r1.x2 > r2.x1) || (r1.x1 < r2.x2 && r1.x2 > r2.x2)) && ((r1.z1 < r2.z1 && r1.z2 > r2.z1) || (r1.z1 < r2.z2 && r1.z2 > r2.z2)));
+        Vector2 result = new Vector2(0.0f, 0.0f);
+        //r2 is to the right of r1 by amount result.x
+        if ((r1.x1 < r2.x1 && r1.x2 > r2.x1)) //checked
+        {
+            ///Debug.Log("r2 is to the right of r1");
+            ///Debug.Log(r1.x1 + " " + r1.z1);
+            ///Debug.Log(r2.x1 + " " + r2.z1);
+            result.x = r1.x2 - r2.x1; //checked
+        }
+        //r2 is to the left of r1 by amount result.x
+        if ((r1.x1 < r2.x2 && r1.x2 > r2.x2)) //checked
+        {
+            ///Debug.Log("r2 is to the left of r1");
+            ///Debug.Log(r1.x1 + " " + r1.z1);
+            ///Debug.Log(r2.x1 + " " + r2.z1);
+            result.x = Mathf.Max(result.x, r2.x2 - r1.x1); //checked
+        }
+        //r2 is above r1 by amount result.y
+        if ((r1.z1 > r2.z2 && r2.z2 > r1.z2)) //checked
+        {
+            ///Debug.Log("r2 above r1");
+            ///Debug.Log(r1.x1 + " " + r1.z1);
+            ///Debug.Log(r2.x1 + " " + r2.z1);
+            result.y = r1.z1 - r2.z2; //checked
+        }
+        //r2 is below r1 by amount result.y
+        if ((r1.z1 > r2.z1 && r2.z1 > r1.z2)) //checked
+        {
+            ///Debug.Log("r2 is below r1");
+            ///Debug.Log(r1.x1 + " " + r1.z1);
+            ///Debug.Log(r2.x1 + " " + r2.z1);
+            result.y = Mathf.Max(result.y, r2.z1 - r1.z2); //checked
+        }
+        return result;
     }
 
-    void separateRooms() {
+    void separateRooms()
+    {
+        RoomController r1, r2;
+        Vector2 d;
+        for (int i = 0; i < roomCount; ++i)
+        {
+            for (int j = 0; j < roomCount; ++j)
+            {
+                if (i == j)
+                    continue;
+                r1 = rooms[i].GetComponent<RoomController>();
+                r2 = rooms[j].GetComponent<RoomController>();
+                d = conflict(r1, r2);
+                if (d.x != 0.0f && d.y != 0.0f)
+                {
+                    Debug.Log("Room1: " + r1.x1 + " " + r1.z1 + " " + r1.x2 + " " + r1.z2);
+                    Debug.Log("Room2: " + r2.x1 + " " + r2.z1 + " " + r2.x2 + " " + r2.z2);
+                    Debug.Log("Room difference: " + d.x + ", " + d.y);
+                    r2.transform.position += new Vector3(2 * d.x, 0.0f, d.y);
+                }
+            }
+        }
+    }
+
+    /*void separateRooms() {
         int inConflict = 0;
         float x, z;
         float weight = 2.0f;
@@ -133,7 +200,7 @@ public class Generator : MonoBehaviour {
             }
             //weight = weight - (weight * weightDrop);
         }
-    }
+    }*/
 
     void genRoom(GameObject room) {
         float width, height;
@@ -160,8 +227,8 @@ public class Generator : MonoBehaviour {
         RoomController rc = parent.GetComponent<RoomController>();
         rc.x1 = x;
         rc.z1 = z;
-        rc.x2 = z - height;
-        rc.z2 = x + width;
+        rc.x2 = x + width;
+        rc.z2 = z - height;
         rc.width = width;
         rc.height = height;
     }
@@ -201,5 +268,4 @@ public class Generator : MonoBehaviour {
         cube.transform.localScale = new Vector3(sx, height, sz);
         cube.transform.parent = parent.transform;
 	}
-
 }
