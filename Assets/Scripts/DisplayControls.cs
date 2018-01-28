@@ -61,7 +61,6 @@ public class DisplayControls : MonoBehaviour {
 			GUI.Label (new Rect (Screen.height / 2, Screen.height / 2 + 60, 100, 100), descript3, descriptStyle);
 			*/
 			start.SetActive (false);
-			controls.SetActive (false);
 			creds.SetActive (false);
 			quit.SetActive (false);
 			creditImage.SetActive (true);
@@ -72,7 +71,6 @@ public class DisplayControls : MonoBehaviour {
 		else {
 			creditImage.SetActive (false);
 			start.SetActive (true);
-			controls.SetActive (true);
 			creds.SetActive (true);
 			quit.SetActive (true);
 		}

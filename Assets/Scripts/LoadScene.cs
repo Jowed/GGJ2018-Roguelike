@@ -6,6 +6,6 @@ using UnityEngine.SceneManagement;
 public class LoadScene : MonoBehaviour {
 
 	public void LoadDMView(){
-		SceneManager.LoadScene ("Main");
+		SceneManager.LoadScene ("LoadTitle");
 	}
 }
