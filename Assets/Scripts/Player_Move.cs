@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player_Move : MonoBehaviour {
 
@@ -14,6 +15,7 @@ public class Player_Move : MonoBehaviour {
     public float speedV = 2.0f;
     public CharacterController controller;
     public Transform t;
+    public bool resetOnDeath = true;
 
     private float yaw = 0.0f;
     private float pitch = 0.0f;
@@ -36,7 +38,19 @@ public class Player_Move : MonoBehaviour {
         Debug.Log(c.gameObject.tag);
         if(c.CompareTag("Enemy"))
         {
-            t.position = new Vector3(-10.08f, 1.0f, -17.64f);
+            if (resetOnDeath)
+            {
+                t.position = new Vector3(-10.08f, 1.0f, -17.64f);
+                SceneManager.LoadScene("TitleScreen", LoadSceneMode.Single);
+            }
+            else
+            {
+                t.position = new Vector3(-10.08f, 1.0f, -17.64f);
+            }
+        }
+        if (c.CompareTag("Finish"))
+        {
+            SceneManager.LoadScene("TitleScreen", LoadSceneMode.Single);
         }
     }
 

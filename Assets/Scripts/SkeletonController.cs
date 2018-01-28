@@ -28,7 +28,8 @@ public class SkeletonController : MonoBehaviour
         //}
         //near
         Vector3 playerxz = new Vector3(player.transform.position.x, 0.475f, player.transform.position.z);
-        if (Vector3.Distance(transform.position, player.position) <= maxDist)
+        if (Vector3.Distance(transform.position, player.position) <= maxDist &&
+            Vector3.Distance(transform.position, player.position) >= minDist)
         {
             transform.LookAt(playerxz);
             //transform.Rotate(new Vector3(0.0f, -90.0f, 0.0f));
