@@ -10,6 +10,14 @@ public class Player_Move : MonoBehaviour {
     public bool fogOn = true;
     public Color fogColor = Color.black;
     public float fogDensity = 0.2f;
+    public float speedH = 2.0f;
+    public float speedV = 2.0f;
+    public CharacterController controller;
+    public Transform t;
+
+    private float yaw = 0.0f;
+    private float pitch = 0.0f;
+    private bool inRange = false;
 
     public AudioClip[] walking;
     private int i = 0;
@@ -22,9 +30,18 @@ public class Player_Move : MonoBehaviour {
         RenderSettings.fogDensity = fogDensity;
         RenderSettings.fogMode = FogMode.Exponential;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void OnTriggerEnter(Collider c)
+    {
+        Debug.Log(c.gameObject.tag);
+        if(c.CompareTag("Enemy"))
+        {
+            t.position = new Vector3(-10.08f, 1.0f, -17.64f);
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
         ++i;
         if (i >= walking.Length)
             i = 0;
@@ -44,11 +61,12 @@ public class Player_Move : MonoBehaviour {
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             dx = 1.0f;
 
-        CharacterController controller = GetComponent<CharacterController>();
         moveDirection = new Vector3(dx, 0, dz);
         moveDirection = transform.TransformDirection(moveDirection);
         moveDirection *= movementSpeed;
+        moveDirection += Physics.gravity;
         controller.Move(moveDirection * Time.deltaTime);
+       
         //float CharacterSpeed = 10.0f;
 
         /*if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
@@ -66,16 +84,52 @@ public class Player_Move : MonoBehaviour {
             */
         //moveDirection.Normalize();
         //transform.Translate(moveDirection * movementSpeed * Time.deltaTime);
-        float x = Input.GetAxis("Mouse X") * Time.deltaTime * mouseSpeed;
+        //float x = Input.GetAxis("Mouse X") * Time.deltaTime * mouseSpeed;
         //float z = Input.GetAxis("Mouse Y") * Time.deltaTime * mouseSpeed;
-        
+
+        float x = yaw;
+        yaw += speedH * Input.GetAxis("Mouse X");
+        pitch -= speedV * Input.GetAxis("Mouse Y");
+
+        if (yaw > 360)
+            yaw -= 360;
+        if (yaw < 0)
+            yaw += 360;
+        if (pitch > 70)
+            pitch = 70;
+        if (pitch < -70)
+            pitch = -70;
+        transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+        //Debug.Log(pitch + " " + yaw);
         //transform.position += new Vector3(dx * Mathf.Cos(transform.rotation.eulerAngles.y * Mathf.Deg2Rad), 0.0f, dz * Mathf.Sin(transform.rotation.eulerAngles.y * Mathf.Deg2Rad));
-        transform.Rotate(0, x, 0);
-        if ((x != 0.0f || moveDirection.x != 0.0f || moveDirection.z != 0.0f) && !audio.isPlaying)
+        //transform.Rotate(z, x, 0);
+        if ((yawRange(yaw) || moveDirection.x != 0.0f || moveDirection.z != 0.0f) && !audio.isPlaying)
         {
             audio.clip = walking[i];
             audio.Play();
         }
         //transform.Rotate(-z, 0, 0);
+    }
+
+    //return true if recently rotated by about ~45
+    bool yawRange(float yaw)
+    {
+        if (yaw % 45 == 0.0f)
+        {
+            if (inRange)
+                return false;
+            inRange = true;
+            return true;
+        }
+        float x = 45.0f / (yaw % 45);
+        if (x > 9.0f || x < 1.125f)
+        {
+            if (inRange)
+                return false;
+            inRange = true;
+            return true;
+        }
+        inRange = false;
+        return false;
     }
 }
