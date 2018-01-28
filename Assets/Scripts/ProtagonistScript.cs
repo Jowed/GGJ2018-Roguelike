@@ -13,5 +13,7 @@ public class ProtagonistScript : MonoBehaviour {
 	void Update () {
 		float move = Input.GetAxis ("Vertical");
 		anim.SetFloat ("Speed", move);
+		if (Input.GetKeyDown (KeyCode.A))
+			anim.Play ("Walking");
 	}
 }
