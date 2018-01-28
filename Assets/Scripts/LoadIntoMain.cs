@@ -12,12 +12,12 @@ public class LoadIntoMain : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		StartCoroutine (Wait5 ());
+		StartCoroutine (Wait1 ());
 
 	}
-	IEnumerator Wait5()
+	IEnumerator Wait1()
 	{
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(1);
 		SceneManager.LoadScene ("Main");
 	}
 }

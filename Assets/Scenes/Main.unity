@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 8
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
-  m_FogDensity: 0.01
+  m_Fog: 1
+  m_FogColor: {r: 0, g: 0, b: 0, a: 1}
+  m_FogMode: 2
+  m_FogDensity: 0.2
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -2455,6 +2455,23 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4386cdf130fcd7a4ea7ff0f2d5bf1a93, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &142317135 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1475013933807330, guid: 67141b09ea0795647b6a8341853ca91d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1537082265}
+--- !u!65 &142317136
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 142317135}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 59.999996, y: 108.56923, z: 53.999996}
+  m_Center: {x: 0, y: 54.284615, z: -0.000023841858}
 --- !u!1001 &142454926
 Prefab:
   m_ObjectHideFlags: 0
