@@ -12,10 +12,21 @@ public class SkeletonController : MonoBehaviour
 
     public CharacterController controller;
 
+    private Animator anim;
+
     // Use this for initialization
     void Start()
     {
+        //this should work but doesn't :-(
+        anim = GetComponent<Animator>();
+        anim.enabled = false;
+        StartCoroutine(delay());
+        anim.enabled = true;
+    }
 
+    IEnumerator delay()
+    {
+        yield return new WaitForSeconds(Random.value * 5);
     }
 
     // Update is called once per frame
