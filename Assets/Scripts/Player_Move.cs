@@ -40,6 +40,7 @@ public class Player_Move : MonoBehaviour {
         {
             if (resetOnDeath)
             {
+                t.position = new Vector3(-10.08f, 1.0f, -17.64f);
                 SceneManager.LoadScene("TitleScreen", LoadSceneMode.Single);
             }
             else
