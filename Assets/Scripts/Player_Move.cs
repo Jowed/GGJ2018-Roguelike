@@ -68,13 +68,13 @@ public class Player_Move : MonoBehaviour {
         float dz = 0.0f;
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             dz = 1.0f;
-        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            dx = -1.0f;
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
             dz = -1.0f;
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            dx = -1.0f;
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             dx = 1.0f;
-
+        
         moveDirection = new Vector3(dx, 0, dz);
         moveDirection = transform.TransformDirection(moveDirection);
         moveDirection *= movementSpeed;
