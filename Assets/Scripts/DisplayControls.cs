@@ -10,7 +10,7 @@ public class DisplayControls : MonoBehaviour {
 	public GameObject controls;
 	public GameObject creds;
 	public GameObject quit;
-	public GameObject credText;
+	public GameObject creditImage;
 	// Use this for initialization
 	void Start () {
 		
@@ -50,6 +50,7 @@ public class DisplayControls : MonoBehaviour {
 				showContr = false;
 			}
 		} else if (showCred) {
+			/*
 			descriptStyle.fontSize = 40;
 			descriptStyle.normal.textColor = Color.white;
 			string descript = "By Andrew, Arman,";
@@ -58,15 +59,18 @@ public class DisplayControls : MonoBehaviour {
 			GUI.Label (new Rect (Screen.height / 2, Screen.height / 2 - 20, 100, 100), descript2, descriptStyle);
 			string descript3 = "(Press any key to exit)";
 			GUI.Label (new Rect (Screen.height / 2, Screen.height / 2 + 60, 100, 100), descript3, descriptStyle);
+			*/
 			start.SetActive (false);
 			controls.SetActive (false);
 			creds.SetActive (false);
 			quit.SetActive (false);
+			creditImage.SetActive (true);
 			if (Input.anyKeyDown) {
 				showCred = false;
 			}
 		}
 		else {
+			creditImage.SetActive (false);
 			start.SetActive (true);
 			controls.SetActive (true);
 			creds.SetActive (true);
