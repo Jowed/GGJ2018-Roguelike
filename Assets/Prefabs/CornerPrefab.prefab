@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 4205719271207732}
   - component: {fileID: 33718329612254492}
   - component: {fileID: 23887702061901508}
+  - component: {fileID: 65228883731406186}
   m_Layer: 0
   m_Name: TileWall
   m_TagString: Untagged
@@ -147,6 +148,7 @@ GameObject:
   - component: {fileID: 4373463075089080}
   - component: {fileID: 33167939988721148}
   - component: {fileID: 23657568624012238}
+  - component: {fileID: 65903313745020066}
   m_Layer: 0
   m_Name: TileWall
   m_TagString: Untagged
@@ -174,8 +176,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1158341588074696}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 9.595556, y: 0.5, z: 8.7411785}
+  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_Children:
   - {fileID: 4120133962461626}
   - {fileID: 4462543623369832}
@@ -443,3 +445,27 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1865658434098802}
   m_Mesh: {fileID: 4300000, guid: 0bbadd098188d294b830e03bc705cab6, type: 3}
+--- !u!65 &65228883731406186
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1865658434098802}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.000001, y: 126, z: 126.00003}
+  m_Center: {x: 60.500015, y: 63, z: 0.000030517578}
+--- !u!65 &65903313745020066
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963517167806704}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 126, z: 126}
+  m_Center: {x: 60.5, y: 63, z: 0}

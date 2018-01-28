@@ -6,11 +6,17 @@ public class Player_Move : MonoBehaviour {
 
     public float movementSpeed = 1.0f;
     public float mouseSpeed = 0.0f;
+    public bool fog = true;
+    public Color fogColor = Color.black;
+    public float fogDensity = 0.2f;
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+        RenderSettings.fogColor = fogColor;
+        RenderSettings.fog = true;
+        RenderSettings.fogDensity = fogDensity;
+        RenderSettings.fogMode = FogMode.Exponential;
+    }
 	
 	// Update is called once per frame
 	void Update () {
